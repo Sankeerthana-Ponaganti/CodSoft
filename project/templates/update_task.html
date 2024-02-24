@@ -1,0 +1,58 @@
+<!-- tasks/update_task.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Task</title>
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+            margin-top: 150px;
+            display: center;
+        }
+
+        h1 {
+            color: black; /* Red color for the heading */
+            margin-bottom: 50px;
+        }
+      
+        button {
+            background-color: #cfdc6d;
+            color: black;
+            padding: 15px 16px;
+            border: none;
+            cursor: pointer;
+            margin-left: 30px;
+            margin-bottom: 30px;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+            margin-top: 0px;
+            display: inline-block; /* Make the Cancel link a block element */
+        } 
+        #title {
+            width: 250px; /* Adjust the width to your preference */
+            padding: 9px;
+            margin-bottom: 50px;
+        }   
+    </style>
+</head>
+<body>
+    <h1>Update Task</h1>
+
+    <form method="post" action="">
+        {% csrf_token %}
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="{{ task.title }}" required>
+        <div  style="padding-right: 20px;">
+        <button type="submit" class="button">Update Task</button>
+        </div>
+</body>
+</html>

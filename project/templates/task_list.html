@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+            margin-top: 150px;
+            display: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        .checked {
+            background-color: blanchedalmond; /* Light color for checked items */
+        }
+
+        li {
+            border-bottom: 2px solid brown;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between; /* Add space between title and buttons */
+            transition: background-color 0.3s; /* Add smooth transition for background color change */
+            margin-left: 200px;
+        }
+
+        .delete-button {
+            background-color: burlywood;
+            color: black;
+            padding: 8px 16px;
+            margin-right: 400px;
+            border: none;
+            cursor: pointer;
+        }
+        .add-button {
+            background-color: #cfdc6d;
+            color: black;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .update-button {
+            background-color: #8fd09e;
+            color: black;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-label {
+            margin-right: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <br>
+    <button class="add-button"><a href="{% url 'add_task' %}">Add Task</a></button>
+
+    <ul id="tasksList">
+        {% for task in tasks %}
+            <li id="task{{ task.id }}" {% if task.completed %}class="checked"{% endif %}>
+                <div class="checkbox-container">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="task_completed" {% if task.completed %}checked{% endif %} onchange="updateTaskStatus('{{ task.id }}')">
+                    </label>
+                    {{ task.title }}
+                </div>
+                <button type="button" class="update-button" onclick="window.location.href='{% url 'update_task' task.id %}'">Update Task</button>
+                <button type="button" class="delete-button" onclick="confirmDelete('{{ task.id }}')">Delete Task</button>
+            </li>
+        {% endfor %}
+    </ul>
+<script>
+    function updateTaskStatus(taskId) {
+        const taskElement = document.getElementById('task' + taskId);
+        if (taskElement) {
+            taskElement.classList.toggle('checked');
+            simulateTaskUpdate(taskId);
+            organizeTasks();
+        }
+    }
+    function simulateTaskUpdate(taskId) {
+        // Simulate updating the task status on the backend
+        // You should replace this with your actual update logic
+        console.log('Task status updated:', taskId);
+    }
+
+    function confirmDelete(taskId) {
+        if (confirm("Are you sure you want to delete this task?")) {
+            // Redirect to the delete view when confirmed
+            window.location.href = "{% url 'delete_task' 0 %}".replace('0', taskId);
+        }
+    }
+
+    function organizeTasks() {
+        const tasksList = document.getElementById('tasksList');
+        const checkedTasks = tasksList.querySelectorAll('.checked');
+
+        checkedTasks.forEach(task => {
+            tasksList.appendChild(task);
+        });
+    }
+    </script>
+</body>
+</html>

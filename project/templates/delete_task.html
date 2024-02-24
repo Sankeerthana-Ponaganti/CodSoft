@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Task</title>
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+            margin-top: 150px;
+            display: center;
+        }
+
+        h1 {
+            color: black; /* Red color for the heading */
+        }
+        button {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 15px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button.cancel-button {
+            background-color: beige; /* Gray color for cancel button */
+            border: none;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+            margin-top: 0px;
+            display: inline-block; /* Make the Cancel link a block element */
+        }
+    </style>
+</head>
+<body>
+    <h1>Delete Task</h1>
+<br>
+    <p>Are you sure you want to delete the task "{{ task.title }}"?</p>
+
+    <form method="post" action="{% url 'delete_task' task.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete Task</button> <br> <button type="button"> <a href="{% url 'task_list' %}" class="cancel-button">Cancel Task</a></button>
+    </form>
+</body>
+</html>
